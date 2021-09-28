@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isJsxElement, JsxElement } from "typescript";
 import DigipetActions from "./components/DigipetActions";
 import DigipetData from "./components/DigipetData";
 
@@ -17,10 +18,13 @@ function App() {
     // try... catch documentation:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
-      const res = await fetch(`http://localhost:4000${endpoint}`);
+      const res = await fetch(`https://glacial-lake-70156.herokuapp.com/${endpoint}`);
       const body = await res.json();
       setMessage(body.message);
+      console.log(body.message)
       setDigipetStats(body.digipet);
+      console.log(body.digipet)
+
     } catch (err) {
       console.log(err);
       setMessage(`${err.name}: ${err.message}`);
@@ -55,7 +59,15 @@ function App() {
             name: "Walk",
             handler: () => loadDataFromEndpoint("/digipet/walk"),
           },
-          { name: "Feed" },
+
+          { name: "Feed",
+            handler: () => loadDataFromEndpoint("/digipet/feed") },
+
+          { name: "Train",
+            handler: () => loadDataFromEndpoint("/digipet/train") },
+
+          { name: "Ignore",
+            handler: () => loadDataFromEndpoint("/digipet/ignore") },
         ]}
       />
     </main>
